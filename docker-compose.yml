@@ -12,7 +12,7 @@ services:
     volumes:
       - /mnt/portainer_int_db_01/redis:/data
     networks:
-      default:
+      data_stack:
         ipv4_address: 10.5.0.3
     environment:
       REDIS_PASSWORD: ${REDIS_PW}
@@ -25,7 +25,7 @@ services:
     volumes:
       - /mnt/portainer_int_db_01/postgres:/var/lib/postgresql/data
     networks:
-      default:
+      data_stack:
         ipv4_address: 10.5.0.4
     environment:
       POSTGRES_USER: ${PG_USER}
@@ -39,7 +39,7 @@ services:
     volumes:
       - /mnt/portainer_int_db_01/mysql:/var/lib/mysql
     networks:
-      default:
+      data_stack:
         ipv4_address: 10.5.0.5
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOTPW}
@@ -52,7 +52,7 @@ services:
     volumes:
       - /mnt/portainer_int_db_01/mongo:/data/db
     networks:
-      default:
+      data_stack:
         ipv4_address: 10.5.0.6
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -67,7 +67,7 @@ services:
     volumes:
       - /mnt/portainer_int_db_01/rabbitmq:/var/lib/rabbitmq
     networks:
-      default:
+      data_stack:
         ipv4_address: 10.5.0.7
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
@@ -81,6 +81,3 @@ networks:
       config:
         - subnet: 10.5.0.0/24
           gateway: 10.5.0.1
-  default:
-    external: true
-    name: portainer_default
