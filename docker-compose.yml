@@ -75,7 +75,6 @@ services:
 
 networks:
   data_stack:
-    external: true
     name: data_stack
     ipam:
       config:
