@@ -13,7 +13,7 @@ services:
       - /mnt/portainer_int_db_01/redis:/data
     networks:
       default:
-        ipv4_address: 172.19.0.3
+        ipv4_address: 10.5.0.3
     environment:
       REDIS_PASSWORD: ${REDIS_PW}
 
@@ -26,7 +26,7 @@ services:
       - /mnt/portainer_int_db_01/postgres:/var/lib/postgresql/data
     networks:
       default:
-        ipv4_address: 172.19.0.7
+        ipv4_address: 10.5.0.4
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
@@ -40,24 +40,24 @@ services:
       - /mnt/portainer_int_db_01/mysql:/var/lib/mysql
     networks:
       default:
-        ipv4_address: 172.19.0.13
+        ipv4_address: 10.5.0.5
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOTPW}
 
-  # mongo:
-  #   image: mongo:latest
-  #   restart: unless-stopped
-  #   ports:
-  #     - 127.0.0.1:27017:27017
-  #   volumes:
-  #     - /mnt/portainer_int_db_01/mongo:/data/db
-  #   networks:
-  #     default:
-  #       ipv4_address: 172.19.0.14
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-  #     MONGO_INITDB_DATABASE: ${MONGO_DB}
+  mongo:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - /mnt/portainer_int_db_01/mongo:/data/db
+    networks:
+      default:
+        ipv4_address: 10.5.0.6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
 
   rabbitmq:
     image: rabbitmq:latest
@@ -68,12 +68,19 @@ services:
       - /mnt/portainer_int_db_01/rabbitmq:/var/lib/rabbitmq
     networks:
       default:
-        ipv4_address: 172.19.0.8
+        ipv4_address: 10.5.0.7
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
 
 networks:
+  data_stack:
+    external: true
+    name: data_stack
+    ipam:
+      config:
+        - subnet: 10.5.0.0/24
+          gateway: 10.5.0.1
   default:
     external: true
     name: portainer_default
